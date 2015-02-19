@@ -2,6 +2,13 @@
 Thumbs.db
 ehthumbs.db
 
+<<<<<<< HEAD
+=======
+*.opensdf
+
+*sdf
+
+>>>>>>> parent of 1692523... Revert "gitignore and other stuff"
 # Folder config file
 Desktop.ini
 
