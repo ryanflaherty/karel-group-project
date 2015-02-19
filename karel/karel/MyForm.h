@@ -14,6 +14,17 @@ namespace Project1 {
 	/// </summary>
 	public ref class MyForm : public System::Windows::Forms::Form
 	{
+	private:
+		///////////////////// Put Graphics Here /////////////////////////
+		Graphics^ g;
+		Bitmap^ KarelLeftbmp = gcnew Bitmap("KarelGraphics/KarelLeft.bmp"); 
+		Bitmap^ KarelRightbmp = gcnew Bitmap("KarelGraphics/KarelRight.bmp");
+		Bitmap^ KarelRightbmp = gcnew Bitmap("KarelGraphics/KarelUp.bmp");
+		Bitmap^ KarelRightbmp = gcnew Bitmap("KarelGraphics/KarelUp.bmp");
+		Bitmap^ KarelRightbmp = gcnew Bitmap("KarelGraphics/KarelUp.bmp");
+		Bitmap^ KarelRightbmp = gcnew Bitmap("KarelGraphics/KarelUp.bmp");
+
+
 	public:
 		MyForm(void)
 		{
