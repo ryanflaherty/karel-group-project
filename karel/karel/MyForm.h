@@ -1,4 +1,5 @@
 #pragma once
+#include <fstream>
 
 namespace Project1 {
 
@@ -73,7 +74,26 @@ namespace Project1 {
 
 		}
 #pragma endregion
+		int NUMROWS;
+		int NUMCOLS;
+
+
+
 	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) {
+				 int temp;
+				 ifstream myfile("textfile.txt");
+				 if (myfile.is_open())
+				 {
+					 //so something here does stuff with the text tile
+					 //i'll figure that out
+					 //- RF
+				 }
+		
+
+
+
+
+
 	}
 	};
 }
