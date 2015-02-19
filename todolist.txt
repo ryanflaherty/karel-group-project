@@ -1,0 +1,13 @@
+graphics
+
+readme file
+
+input file
+
+array of cells
+
+functions of moving, turning, walls
+
+beepers
+
+double buffering
