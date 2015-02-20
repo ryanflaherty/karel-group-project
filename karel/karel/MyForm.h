@@ -1,6 +1,6 @@
 #pragma once
 #include <fstream>
-
+#include "icon.h"
 namespace Project1 {
 
 	using namespace System;
@@ -27,7 +27,7 @@ namespace Project1 {
 		Bitmap^ KarelWallBlockbmp = gcnew Bitmap("KarelGraphics/KarelWallBlock.bmp");
 		Bitmap^ KarelBeeperbmp = gcnew Bitmap("KarelGraphics/KarelBeeper.bmp");
 		//////////////////////////////////////////////////////////////////////////////////
-
+		array <icon^, 2>^ Box1;
 	public:
 		MyForm(void)
 		{
@@ -74,6 +74,7 @@ namespace Project1 {
 			this->pictureBox1->Size = System::Drawing::Size(400, 400);
 			this->pictureBox1->TabIndex = 0;
 			this->pictureBox1->TabStop = false;
+			this->pictureBox1->Click += gcnew System::EventHandler(this, &MyForm::pictureBox1_Click);
 			// 
 			// button1
 			// 
@@ -102,9 +103,11 @@ namespace Project1 {
 		}
 #pragma endregion
 <<<<<<< HEAD
-		int NUMROWS;
-		int NUMCOLS;
 
+		int NUMROUS=5;
+		int NUMCOLS=5;
+		int numrow = 5;
+		int numcol = 4;
 
 
 	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) {
@@ -117,7 +120,16 @@ namespace Project1 {
 					 //- RF
 				 }
 		
+				 g = pictureBox1->CreateGraphics();
+				 Box1 = gcnew array<icon^, 2>(5, 5);
+				 for (int row = 0; row < numrow; row++)
+				 {
+					 for (int col = 0; col < NUMCOLS; col++)
+					 {
 
+						 Box1[row, col] = gcnew icon(row, col, 'b');
+					 }
+				 }
 
 
 
@@ -128,4 +140,6 @@ namespace Project1 {
 
 	}
 	};
+private: System::Void pictureBox1_Click(System::Object^  sender, System::EventArgs^  e) {
+}
 }
