@@ -10,6 +10,9 @@ namespace Project1 {
 	using namespace System::Data;
 	using namespace System::Drawing;
 
+	//file io
+	using namespace System::IO;
+
 	/// <summary>
 	/// Summary for MyForm
 	/// </summary>
@@ -101,31 +104,29 @@ namespace Project1 {
 
 		}
 #pragma endregion
-<<<<<<< HEAD
+//<<<<<<< HEAD
 		int NUMROWS;
 		int NUMCOLS;
 
 
 
 	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) {
-				 int temp;
+				 /*int temp;
 				 ifstream myfile("textfile.txt");
 				 if (myfile.is_open())
 				 {
-					 //so something here does stuff with the text tile
-					 //i'll figure that out
-					 //- RF
+					
 				 }
 		
+		*/
 
 
 
+//=======
+	//private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) 
+	//{
+//>>>>>>> origin/master
 
-=======
-	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) 
-	{
->>>>>>> origin/master
-
-	}
+	//}
 	};
-}
+};
