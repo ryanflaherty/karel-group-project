@@ -17,8 +17,8 @@ namespace Project1 {
 	{
 	private:
 		///////////////////// Graphics //////////////////////////////////////////////////
-		private: System::Windows::Forms::PictureBox^  pictureBox1;
-		private: System::Windows::Forms::Button^  button1;
+		private: System::Windows::Forms::PictureBox^ pictureBox1;
+		private: System::Windows::Forms::Button^ button1;
 		Graphics^ g;
 		Bitmap^ KarelLeftbmp = gcnew Bitmap("KarelGraphics/KarelLeft.bmp"); 
 		Bitmap^ KarelRightbmp = gcnew Bitmap("KarelGraphics/KarelRight.bmp");
@@ -26,7 +26,12 @@ namespace Project1 {
 		Bitmap^ KarelDownbmp = gcnew Bitmap("KarelGraphics/KarelDown.bmp");
 		Bitmap^ KarelWallBlockbmp = gcnew Bitmap("KarelGraphics/KarelWallBlock.bmp");
 		Bitmap^ KarelBeeperbmp = gcnew Bitmap("KarelGraphics/KarelBeeper.bmp");
-		//////////////////////////////////////////////////////////////////////////////////
+		////////////////////// WORLD ARRAY ///////////////////////////////////////////////
+		// Instance Variables
+		array <intersection^, 2>^ WORLD; //The kerat ^ is a pointer to the cell ^
+		// Static constants
+		const int num_avenues = 10; //Number of ros in the grid
+		const int num_streets = 10; //Number of collumns in the grid
 
 	public:
 		MyForm(void)
@@ -101,13 +106,11 @@ namespace Project1 {
 
 		}
 #pragma endregion
-<<<<<<< HEAD
-		int NUMROWS;
-		int NUMCOLS;
+//<<<<<<< HEAD
 
 
-
-	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) {
+private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) 
+	{
 				 int temp;
 				 ifstream myfile("textfile.txt");
 				 if (myfile.is_open())
@@ -117,15 +120,17 @@ namespace Project1 {
 					 //- RF
 				 }
 		
+/* 4.	The commands are not case sensitive. These are the commands to build his world:
+a.	World (might be written as WORLD, world –case insensitive- etc): defines the size of Karel’s world. */
 
+private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) 
+				{
+			>>>>>>> origin/master
+				WORLD = gcnew array<cell^, 2>(num_avenues, num_streets); //World num_avenues num_streets
+					for (int row = 0; row < num_avenues; avenue++)
+						for (int col = 0; col < num_streets; street++)
+							grid[avenue, street] = gcnew cell(row, col, 'b');
 
-
-
-=======
-	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) 
-	{
->>>>>>> origin/master
-
-	}
+				}
 	};
-}
+};
