@@ -10,8 +10,6 @@ namespace Project1 {
 	using namespace System::Data;
 	using namespace System::Drawing;
 
-	//file io
-	using namespace System::IO;
 
 	/// <summary>
 	/// Summary for MyForm
@@ -19,6 +17,8 @@ namespace Project1 {
 	public ref class MyForm : public System::Windows::Forms::Form
 	{
 	private:
+
+
 		///////////////////// Graphics //////////////////////////////////////////////////
 		private: System::Windows::Forms::PictureBox^ pictureBox1;
 		private: System::Windows::Forms::Button^ button1;
@@ -29,12 +29,16 @@ namespace Project1 {
 		Bitmap^ KarelDownbmp = gcnew Bitmap("KarelGraphics/KarelDown.bmp");
 		Bitmap^ KarelWallBlockbmp = gcnew Bitmap("KarelGraphics/KarelWallBlock.bmp");
 		Bitmap^ KarelBeeperbmp = gcnew Bitmap("KarelGraphics/KarelBeeper.bmp");
+
+
 		////////////////////// WORLD ARRAY ///////////////////////////////////////////////
 		// Instance Variables
 		array <intersection^, 2>^ WORLD; //The kerat ^ is a pointer to the cell ^
 		// Static constants
 		const int num_avenues = 10; //Number of ros in the grid
-		const int num_streets = 10; //Number of collumns in the grid
+	private: System::Windows::Forms::Button^  move_button;
+	private: System::Windows::Forms::Button^  turn_button;
+			 const int num_streets = 10; //Number of collumns in the grid
 
 	public:
 		MyForm(void)
@@ -72,6 +76,8 @@ namespace Project1 {
 		{
 			this->pictureBox1 = (gcnew System::Windows::Forms::PictureBox());
 			this->button1 = (gcnew System::Windows::Forms::Button());
+			this->move_button = (gcnew System::Windows::Forms::Button());
+			this->turn_button = (gcnew System::Windows::Forms::Button());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 			this->SuspendLayout();
 			// 
@@ -93,12 +99,35 @@ namespace Project1 {
 			this->button1->TabIndex = 1;
 			this->button1->Text = L"START";
 			this->button1->UseVisualStyleBackColor = true;
+			this->button1->Click += gcnew System::EventHandler(this, &MyForm::button1_Click);
+			// 
+			// move_button
+			// 
+			this->move_button->Location = System::Drawing::Point(453, 31);
+			this->move_button->Name = L"move_button";
+			this->move_button->Size = System::Drawing::Size(75, 23);
+			this->move_button->TabIndex = 2;
+			this->move_button->Text = L"Move";
+			this->move_button->UseVisualStyleBackColor = true;
+			this->move_button->Click += gcnew System::EventHandler(this, &MyForm::move_button_Click);
+			// 
+			// turn_button
+			// 
+			this->turn_button->Location = System::Drawing::Point(534, 88);
+			this->turn_button->Name = L"turn_button";
+			this->turn_button->Size = System::Drawing::Size(75, 23);
+			this->turn_button->TabIndex = 3;
+			this->turn_button->Text = L"Turn Left";
+			this->turn_button->UseVisualStyleBackColor = true;
+			this->turn_button->Click += gcnew System::EventHandler(this, &MyForm::turn_button_Click);
 			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(674, 430);
+			this->Controls->Add(this->turn_button);
+			this->Controls->Add(this->move_button);
 			this->Controls->Add(this->button1);
 			this->Controls->Add(this->pictureBox1);
 			this->Name = L"MyForm";
@@ -110,9 +139,11 @@ namespace Project1 {
 		}
 #pragma endregion
 //<<<<<<< HEAD
-<<<<<<< HEAD
+//<<<<<<< HEAD
 		int NUMROWS;
 		int NUMCOLS;
+
+		bool start_game = false;		//bool for if cell is drawn... wont allow other commands until cell is drawn
 
 
 
@@ -143,8 +174,28 @@ private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e
 
 	//}
 	};
+private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
+			 start_game = true;
+
+			 //draw commands for cell
+
+}
+private: System::Void move_button_Click(System::Object^  sender, System::EventArgs^  e) {
+			 ////////////////
+			 if (start_game = true){
+
+
+
+
+
+
+
+
+				 
+}
+			 //////////////////
 };
-=======
+
 /* 4.	The commands are not case sensitive. These are the commands to build his world:
 a.	World (might be written as WORLD, world –case insensitive- etc): defines the size of Karel’s world. */
 
@@ -157,6 +208,18 @@ private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e
 							grid[avenue, street] = gcnew cell(row, col, 'b');
 
 				}
-	};
+	private: System::Void turn_button_Click(System::Object^  sender, System::EventArgs^  e) {
+
+
+				 ///////////
+				 if (start_game = true){
+
+
+
+
+				 }
+				 ///////////////
+	}
 };
->>>>>>> origin/master
+};
+
