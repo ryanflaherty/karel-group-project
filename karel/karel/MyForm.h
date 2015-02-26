@@ -1,5 +1,5 @@
 #pragma once
-#include <fstream>
+#include "file.h"
 
 namespace Project1 {
 
@@ -33,7 +33,7 @@ namespace Project1 {
 
 		////////////////////// WORLD ARRAY ///////////////////////////////////////////////
 		// Instance Variables
-		array <intersection^, 2>^ WORLD; //The kerat ^ is a pointer to the cell ^
+		array <file^, 2>^ WORLD; //The kerat ^ is a pointer to the cell ^
 		// Static constants
 		const int num_avenues = 10; //Number of ros in the grid
 	private: System::Windows::Forms::Button^  move_button;
@@ -140,6 +140,8 @@ namespace Project1 {
 #pragma endregion
 //<<<<<<< HEAD
 //<<<<<<< HEAD
+		file purple;
+
 		int NUMROWS;
 		int NUMCOLS;
 
@@ -214,6 +216,30 @@ private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e
 				 ///////////
 				 if (start_game = true){
 
+					 int row = purple.get_row();
+					 int col = purple.get_col();
+					 int direction = purple.get_direction();
+
+					 if (direction == 1)
+					 {
+						 purple.set_direction(2);
+						 g->DrawImage(KarelLeftbmp, row * 50, col * 50, 50, 50);
+					 }
+					 if (direction == 2)
+					 {
+						 purple.set_direction(3);
+						 g->DrawImage(KarelDownbmp, row * 50, col * 50, 50, 50);
+					 }
+					 if (direction == 3)
+					 {
+						 purple.set_direction(4);
+						 g->DrawImage(KarelRightbmp, row * 50, col * 50, 50, 50);
+					 }
+					 if (direction == 4)
+					 {
+						 purple.set_direction(1);
+						 g->DrawImage(KarelUpbmp, row * 50, col * 50, 50, 50);
+					 }
 
 
 
