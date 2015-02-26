@@ -34,16 +34,14 @@ namespace Project1 {
 		Bitmap^ KarelDownbmp = gcnew Bitmap("KarelGraphics/KarelDown.bmp");
 		Bitmap^ KarelWallBlockbmp = gcnew Bitmap("KarelGraphics/KarelWallBlock.bmp");
 		Bitmap^ KarelBeeperbmp = gcnew Bitmap("KarelGraphics/KarelBeeper.bmp");
-
-
 		////////////////////// WORLD ARRAY ///////////////////////////////////////////////
 		// Instance Variables
 		array <file^, 2>^ WORLD; //The kerat ^ is a pointer to the cell ^
 		// Static constants
-		const int num_avenues = 10; //Number of ros in the grid
-	private: System::Windows::Forms::Button^  move_button;
-	private: System::Windows::Forms::Button^  turn_button;
-			 const int num_streets = 10; //Number of collumns in the grid
+		const int num_rows = 10; //Number of ros in the grid
+		private: System::Windows::Forms::Button^  move_button;
+		private: System::Windows::Forms::Button^  turn_button;
+		const int num_cols = 10; //Number of collumns in the grid
 
 	public:
 		MyForm(void)
@@ -147,10 +145,6 @@ namespace Project1 {
 //<<<<<<< HEAD
 //<<<<<<< HEAD
 		file purple;
-
-		int NUMROWS;
-		int NUMCOLS;
-
 		bool start_game = false;		//bool for if cell is drawn... wont allow other commands until cell is drawn
 
 
@@ -299,11 +293,15 @@ a.	World (might be written as WORLD, world –case insensitive- etc): defines the 
 
 private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) 
 				{
+<<<<<<< HEAD
 			 g = pictureBox1->CreateGraphics();
 			 //blackBrush = gcnew System::Drawing::SolidBrush(Color::Black);
 			 whiteBrush = gcnew System::Drawing::SolidBrush(Color::White);
 			//>>>>>>> origin/master
 				WORLD = gcnew array<file^, 2>(num_rows, num_cols); //World num_avenues num_streets
+=======
+				WORLD = gcnew array<file^, 2>(num_cols, num_rows); //World num_avenues num_streets
+>>>>>>> origin/master
 					for (int row = 0; row < num_rows; row++)
 						for (int col = 0; col < num_cols; col++)
 							WORLD[row, col] = gcnew file(row, col, 'b');
