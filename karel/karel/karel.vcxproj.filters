@@ -18,7 +18,11 @@
     <ClCompile Include="MyForm.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+<<<<<<< HEAD
     <ClCompile Include="icon.cpp">
+=======
+    <ClCompile Include="file.cpp">
+>>>>>>> 6a494a4f22910045b563235475b943ded9fea4ee
       <Filter>Source Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -26,7 +30,11 @@
     <ClInclude Include="MyForm.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+<<<<<<< HEAD
     <ClInclude Include="icon.h">
+=======
+    <ClInclude Include="file.h">
+>>>>>>> 6a494a4f22910045b563235475b943ded9fea4ee
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
