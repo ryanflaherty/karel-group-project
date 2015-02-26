@@ -1,6 +1,10 @@
 #pragma once
 #include <fstream>
 #include "icon.h"
+#include <cstdlib>
+#include <ctime>
+
+
 namespace Project1 {
 
 	using namespace System;
@@ -17,8 +21,8 @@ namespace Project1 {
 	{
 	private:
 		///////////////////// Graphics //////////////////////////////////////////////////
-		private: System::Windows::Forms::PictureBox^  pictureBox1;
-		private: System::Windows::Forms::Button^  button1;
+		private: System::Windows::Forms::PictureBox^ pictureBox1;
+		private: System::Windows::Forms::Button^ button1;
 		Graphics^ g;
 		Bitmap^ KarelLeftbmp = gcnew Bitmap("KarelGraphics/KarelLeft.bmp"); 
 		Bitmap^ KarelRightbmp = gcnew Bitmap("KarelGraphics/KarelRight.bmp");
@@ -26,8 +30,19 @@ namespace Project1 {
 		Bitmap^ KarelDownbmp = gcnew Bitmap("KarelGraphics/KarelDown.bmp");
 		Bitmap^ KarelWallBlockbmp = gcnew Bitmap("KarelGraphics/KarelWallBlock.bmp");
 		Bitmap^ KarelBeeperbmp = gcnew Bitmap("KarelGraphics/KarelBeeper.bmp");
-		//////////////////////////////////////////////////////////////////////////////////
 		array <icon^, 2>^ Box1;
+//<<<<<<< HEAD
+		//////////////////////////////////////////////////////////////////////////////////
+		
+//=======
+		////////////////////// WORLD ARRAY ///////////////////////////////////////////////
+		// Instance Variables
+		//array <intersection^, 2>^ WORLD; //The kerat ^ is a pointer to the cell ^
+		// Static constants
+		const int num_avenues = 10; //Number of ros in the grid
+		const int num_streets = 10; //Number of collumns in the grid
+
+//>>>>>>> origin/master
 	public:
 		MyForm(void)
 		{
@@ -102,7 +117,11 @@ namespace Project1 {
 
 		}
 #pragma endregion
-<<<<<<< HEAD
+//<<<<<<< HEAD
+//<<<<<<< HEAD
+//=======
+//<<<<<<< HEAD
+//>>>>>>> origin/master
 
 		int NUMROUS=5;
 		int NUMCOLS=5;
@@ -110,7 +129,8 @@ namespace Project1 {
 		int numcol = 4;
 
 
-	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) {
+/*private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) 
+	{
 				 int temp;
 				 ifstream myfile("textfile.txt");
 				 if (myfile.is_open())
@@ -120,8 +140,9 @@ namespace Project1 {
 					 //- RF
 				 }
 		
+<<<<<<< HEAD
 				 g = pictureBox1->CreateGraphics();
-				 Box1 = gcnew array<icon^, 2>(5, 5);
+				 gridBox1 = gcnew array<icon^, 2>(5, 5);
 				 for (int row = 0; row < numrow; row++)
 				 {
 					 for (int col = 0; col < NUMCOLS; col++)
@@ -132,8 +153,7 @@ namespace Project1 {
 				 }
 
 
-
-=======
+===
 	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) 
 	{
 >>>>>>> origin/master
@@ -143,3 +163,68 @@ namespace Project1 {
 private: System::Void pictureBox1_Click(System::Object^  sender, System::EventArgs^  e) {
 }
 }
+*/
+
+//=======
+/* 4.	The commands are not case sensitive. These are the commands to build his world:
+a.	World (might be written as WORLD, world –case insensitive- etc): defines the size of Karel’s world. */
+		icon robot;
+private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) 
+				{
+		//	>>>>>>> origin/master
+			 srand(time(NULL));
+			 g = pictureBox1->CreateGraphics();
+			 Box1 = gcnew array<icon^, 2>(5, 5);
+			 for (int row = 0; row < numrow; row++)
+			 {
+				 for (int col = 0; col < NUMCOLS; col++)
+				 {
+
+					 Box1[row, col] = gcnew icon(row, col, 'b');
+				 }
+			 }
+			 int direction = rand() % 6 + 1;
+			 if (direction == 1)
+			 {
+				 g->DrawImage(KarelLeftbmp, robot.left(robot.getx()), robot.gety());
+			 }
+			 else
+			 {
+				 if (direction == 2)
+				 {
+					 g->DrawImage(KarelRightbmp, robot.setx(robot.getx()), robot.gety());
+				 }
+				 else
+				 {
+					 if (direction == 3)
+					 {
+						 g->DrawImage(KarelUpbmp, robot.getx(), robot.sety(robot.gety()));
+					 }
+					 else
+					 {
+						 g->DrawImage(KarelDownbmp, robot.getx(), robot.down(robot.gety()));
+
+					 }
+					 
+				 }
+			 }
+				/*WORLD = gcnew array<cell^, 2>(num_avenues, num_streets); //World num_avenues num_streets
+					for (int row = 0; row < num_avenues; avenue++)
+						for (int col = 0; col < num_streets; street++)
+							grid[avenue, street] = gcnew cell(row, col, 'b');
+
+						int temp;
+						ifstream myfile("textfile.txt");
+						if (myfile.is_open())
+						{
+							//so something here does stuff with the text tile
+							//i'll figure that out
+							//- RF
+						}
+						*/
+						
+
+				}
+	};
+};
+//>>>>>>> origin/master
