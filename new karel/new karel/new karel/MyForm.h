@@ -82,15 +82,15 @@ namespace Project1 {
 			// 
 			// pictureBox1
 			// 
-			this->pictureBox1->Location = System::Drawing::Point(12, 12);
+			this->pictureBox1->Location = System::Drawing::Point(12, 70);
 			this->pictureBox1->Name = L"pictureBox1";
-			this->pictureBox1->Size = System::Drawing::Size(167, 238);
+			this->pictureBox1->Size = System::Drawing::Size(952, 667);
 			this->pictureBox1->TabIndex = 0;
 			this->pictureBox1->TabStop = false;
 			// 
 			// button1
 			// 
-			this->button1->Location = System::Drawing::Point(218, 31);
+			this->button1->Location = System::Drawing::Point(12, 12);
 			this->button1->Name = L"button1";
 			this->button1->Size = System::Drawing::Size(75, 23);
 			this->button1->TabIndex = 1;
@@ -100,7 +100,7 @@ namespace Project1 {
 			// 
 			// button2
 			// 
-			this->button2->Location = System::Drawing::Point(218, 62);
+			this->button2->Location = System::Drawing::Point(93, 12);
 			this->button2->Name = L"button2";
 			this->button2->Size = System::Drawing::Size(75, 23);
 			this->button2->TabIndex = 2;
@@ -110,7 +110,7 @@ namespace Project1 {
 			// 
 			// button3
 			// 
-			this->button3->Location = System::Drawing::Point(218, 92);
+			this->button3->Location = System::Drawing::Point(12, 41);
 			this->button3->Name = L"button3";
 			this->button3->Size = System::Drawing::Size(75, 23);
 			this->button3->TabIndex = 3;
@@ -120,7 +120,7 @@ namespace Project1 {
 			// 
 			// button4
 			// 
-			this->button4->Location = System::Drawing::Point(218, 121);
+			this->button4->Location = System::Drawing::Point(93, 41);
 			this->button4->Name = L"button4";
 			this->button4->Size = System::Drawing::Size(75, 23);
 			this->button4->TabIndex = 4;
@@ -132,7 +132,7 @@ namespace Project1 {
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
-			this->ClientSize = System::Drawing::Size(284, 262);
+			this->ClientSize = System::Drawing::Size(976, 749);
 			this->Controls->Add(this->button4);
 			this->Controls->Add(this->button3);
 			this->Controls->Add(this->button2);
@@ -159,6 +159,98 @@ namespace Project1 {
 
 	}
 private: System::Void button2_Click(System::Object^  sender, System::EventArgs^  e) {
+			 //move button
+			 int cur_row = purple.get_row();
+			 int cur_col = purple.get_col();
+			 int cur_direction = purple.get_direction();
+			 int temp_row;
+			 int temp_col;
+
+
+
+
+			 //directioms
+			 //1 = up
+			 //2 = left
+			 //3 = down
+			 //4 = right
+
+			 //up
+			 if (cur_direction == 1)
+			 {
+				 temp_col = cur_col - 1;
+				 if (temp_col < 0 || temp_col >= num_cols)
+				 {
+					 g->DrawImage(KarelUpbmp, cur_row * 50, cur_col * 50, 50, 50);
+				 }
+				 else
+				 {
+					 //pictureBox1->Refresh();
+					 Rectangle blank_space = Rectangle(cur_row * CELLSIZE, cur_col * CELLSIZE, 50, 50);
+					 g->FillRectangle(whiteBrush, blank_space);
+					 g->DrawImage(KarelUpbmp, cur_row * 50, temp_col * 50, 50, 50);
+					 purple.set_col(temp_col);
+				 }
+			 }
+
+
+			 //left
+			 if (cur_direction == 2)
+			 {
+				 temp_row = cur_row - 1;
+				 if (temp_row < 0 || temp_row >= num_rows)
+				 {
+					 g->DrawImage(KarelLeftbmp, cur_row * 50, cur_col * 50, 50, 50);
+				 }
+				 else
+				 {
+					 //pictureBox1->Refresh();
+					 Rectangle blank_space = Rectangle(cur_row * CELLSIZE, cur_col * CELLSIZE, 50, 50);
+					 g->FillRectangle(whiteBrush, blank_space);
+					 g->DrawImage(KarelLeftbmp, temp_row * 50, cur_col * 50, 50, 50);
+					 purple.set_row(temp_row);
+				 }
+			 }
+
+
+			 //down
+			 if (cur_direction == 3)
+			 {
+				 temp_col = cur_col + 1;
+				 if (temp_col < 0 || temp_col >= num_cols)
+				 {
+					 g->DrawImage(KarelDownbmp, cur_row * 50, cur_col * 50, 50, 50);
+				 }
+				 else
+				 {
+					 //pictureBox1->Refresh();
+					 Rectangle blank_space = Rectangle(cur_row * CELLSIZE, cur_col * CELLSIZE, 50, 50);
+					 g->FillRectangle(whiteBrush, blank_space);
+					 g->DrawImage(KarelDownbmp, cur_row * 50, temp_col * 50, 50, 50);
+					 purple.set_col(temp_col);
+				 }
+			 }
+
+
+			 //right
+			 if (cur_direction == 4)
+			 {
+				 temp_row = cur_row + 1;
+				 if (temp_row < 0 || temp_row >= num_rows)
+				 {
+					 g->DrawImage(KarelRightbmp, cur_row * 50, cur_col * 50, 50, 50);
+				 }
+				 else
+				 {
+					 //pictureBox1->Refresh();
+					 Rectangle blank_space = Rectangle(cur_row * CELLSIZE, cur_col * CELLSIZE, 50, 50);
+					 g->FillRectangle(whiteBrush, blank_space);
+					 g->DrawImage(KarelRightbmp, temp_row * 50, cur_col * 50, 50, 50);
+					 purple.set_row(temp_row);
+				 }
+			 }
+
+
 }
 private: System::Void button3_Click(System::Object^  sender, System::EventArgs^  e) {
 			 //turn button
