@@ -1,6 +1,8 @@
 #pragma once
 #include "Game.h"
 #include "Wall.h"
+#include <stdlib.h>
+#include <ctime>
 
 namespace Project1 {
 
@@ -186,10 +188,39 @@ namespace Project1 {
 				 WALLS = gcnew array<wall^, 2>(num_rows, num_cols);
 					for (int row = 0; row < num_rows; row++)
 					for (int col = 0; col < num_cols; col++)
-						WALLS[row, col] = gcnew wall(row, col, false);
+						WALLS[row, col] = gcnew wall(row, col, false, false);
+
+
+					
 	}
 	private: System::Void button4_Click(System::Object^  sender, System::EventArgs^  e) {
 				 //interact button
+				 int x = purple.get_row();
+				 int y = purple.get_col();
+				 int i = wallClass.get_beeper_pocket();
+
+				 if (WALLS[x, y]->get_beeper() == true)
+				 {
+					 WALLS[x, y]->set_beeper(false);
+					 wallClass.set_beeper_pocket(i++);
+					 drawMaze();
+				 }
+				 
+				 if (WALLS[x, y]->get_beeper() == false && i > 0)
+				 {
+					 WALLS[x, y]->set_beeper(true);
+					 wallClass.set_beeper_pocket(i--);
+					 drawMaze();
+				 }
+
+
+
+
+
+
+
+
+
 	}
 private: System::Void Start_button_Click(System::Object^  sender, System::EventArgs^  e) {
 			 //start button
@@ -197,12 +228,12 @@ private: System::Void Start_button_Click(System::Object^  sender, System::EventA
 			 purple.set_row(5);
 			 purple.set_col(5);
 			 purple.set_direction(1);
+			 wallClass.set_beeper_pocket(0);
 
 			 //set walls
 			 for (int row = 0; row < num_rows; row++){
 				 int col = 0;
-					 WALLS[row, col]->set_wall(true);
-				 //}
+					 WALLS[row, col]->set_wall(true);//}
 			 }
 			 for (int col = 0; col < num_cols; col++){
 				 int row = 0;
@@ -216,15 +247,32 @@ private: System::Void Start_button_Click(System::Object^  sender, System::EventA
 				 int row = num_rows - 1;
 				 WALLS[row, col]->set_wall(true);
 			 }
+			 
+			 //sets value of beepers to false for all spaces
+			 for (int row = 0; row < num_rows; row++){
+				 for (int col = 0; col < num_cols; col++){
+					 WALLS[row, col]->set_beeper(false);
+				 }
+			 }
+			 
+			 //beeper set 
+			 srand(time(NULL));
+			 for (int beeper_count = 0; beeper_count < 4; beeper_count++){
+				 int temp_x = rand() % num_rows;
+				 int temp_y = rand() % num_cols;
+				 if (WALLS[temp_x, temp_y]->get_wall() == false){
+					 WALLS[temp_x, temp_y]->set_beeper(true);
+				 }
+				 else
+					 beeper_count--;
+			 }
 
-
-			 //
-
+			 //draws maze
 			 drawMaze();
 
 			 int temp_row = purple.get_row();
 			 int temp_col = purple.get_col();
-			 g->DrawImage(KarelUpbmp, temp_row * 50, temp_col * 50, 50, 50);
+			 g->DrawImage(KarelUpbmp, temp_row * CELLSIZE, temp_col * CELLSIZE, CELLSIZE, CELLSIZE);
 }
 private: System::Void pictureBox2_Click(System::Object^  sender, System::EventArgs^  e) {
 			 //ignore
@@ -248,7 +296,7 @@ private: System::Void button2_Click(System::Object^  sender, System::EventArgs^ 
 			 if (cur_direction == 1)
 			 {
 				 temp_col = cur_col - 1;
-				 if (temp_col < 0 || temp_col >= num_cols)
+				 if (temp_col < 0 || temp_col >= num_cols || WALLS[cur_row, temp_col]->get_wall() == true)
 				 {
 					 g->DrawImage(KarelUpbmp, cur_row * 50, cur_col * 50, 50, 50);
 				 }
@@ -268,7 +316,7 @@ private: System::Void button2_Click(System::Object^  sender, System::EventArgs^ 
 			 if (cur_direction == 2)
 			 {
 				 temp_row = cur_row - 1;
-				 if (temp_row < 0 || temp_row >= num_rows)
+				 if (temp_row < 0 || temp_row >= num_rows || WALLS[temp_row, cur_col]->get_wall() == true)
 				 {
 					 g->DrawImage(KarelLeftbmp, cur_row * 50, cur_col * 50, 50, 50);
 				 }
@@ -288,7 +336,7 @@ private: System::Void button2_Click(System::Object^  sender, System::EventArgs^ 
 			 if (cur_direction == 3)
 			 {
 				 temp_col = cur_col + 1;
-				 if (temp_col < 0 || temp_col >= num_cols)
+				 if (temp_col < 0 || temp_col >= num_cols || WALLS[cur_row, temp_col]->get_wall() == true)
 				 {
 					 g->DrawImage(KarelDownbmp, cur_row * 50, cur_col * 50, 50, 50);
 				 }
@@ -308,7 +356,7 @@ private: System::Void button2_Click(System::Object^  sender, System::EventArgs^ 
 			 if (cur_direction == 4)
 			 {
 				 temp_row = cur_row + 1;
-				 if (temp_row < 0 || temp_row >= num_rows)
+				 if (temp_row < 0 || temp_row >= num_rows || WALLS[temp_row, cur_col]->get_wall() == true)
 				 {
 					 g->DrawImage(KarelRightbmp, cur_row * 50, cur_col * 50, 50, 50);
 				 }
@@ -373,6 +421,13 @@ private: Void drawMaze(){
 
 						 Rectangle blank_space = Rectangle(row * CELLSIZE, col * CELLSIZE, CELLSIZE, CELLSIZE);
 						 g->FillRectangle(whiteBrush, blank_space);
+					 }
+					 if (WALLS[row, col]->get_beeper() == true)
+					 {
+						 x = row * CELLSIZE;
+						 y = col * CELLSIZE;
+
+						 g->DrawImage(KarelBeeperbmp, x, y, CELLSIZE, CELLSIZE);
 					 }
 				 }
 			 }

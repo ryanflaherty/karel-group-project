@@ -5,12 +5,12 @@ wall::wall()
 {
 
 }
-wall::wall(int a, int z, bool t)
+wall::wall(int a, int z, bool t, bool f)
 {
 	x = a;
 	y = z;
 	has_wall = t;
-	has_beeper;
+	has_beeper = f;
 }
 
 
@@ -30,6 +30,10 @@ bool wall::get_beeper()
 {
 	return has_beeper;
 }
+int wall::get_beeper_pocket()
+{
+	return beeper_pocket;
+}
 
 
 void wall::set_x(int a)
@@ -47,4 +51,8 @@ void wall::set_wall(bool t)
 void wall::set_beeper(bool b)
 {
 	has_beeper = b;
+}
+void wall::set_beeper_pocket(int b)
+{
+	beeper_pocket = b;
 }
