@@ -1,5 +1,13 @@
 #pragma once
+<<<<<<< HEAD
 #include <fstream>
+#include "icon.h"
+#include <cstdlib>
+#include <ctime>
+
+=======
+#include "file.h"
+>>>>>>> 6a494a4f22910045b563235475b943ded9fea4ee
 
 namespace Project1 {
 
@@ -18,28 +26,41 @@ namespace Project1 {
 	{
 	private:
 
+		static const int num_rows = 10;
+		static const int num_cols = 10;
+		static const int CELLSIZE = 50;
+
 
 		///////////////////// Graphics //////////////////////////////////////////////////
 		private: System::Windows::Forms::PictureBox^ pictureBox1;
 		private: System::Windows::Forms::Button^ button1;
 		Graphics^ g;
+		Brush^ whiteBrush;
 		Bitmap^ KarelLeftbmp = gcnew Bitmap("KarelGraphics/KarelLeft.bmp"); 
 		Bitmap^ KarelRightbmp = gcnew Bitmap("KarelGraphics/KarelRight.bmp");
 		Bitmap^ KarelUpbmp = gcnew Bitmap("KarelGraphics/KarelUp.bmp");
 		Bitmap^ KarelDownbmp = gcnew Bitmap("KarelGraphics/KarelDown.bmp");
 		Bitmap^ KarelWallBlockbmp = gcnew Bitmap("KarelGraphics/KarelWallBlock.bmp");
 		Bitmap^ KarelBeeperbmp = gcnew Bitmap("KarelGraphics/KarelBeeper.bmp");
-
-
+		array <icon^, 2>^ Box1;
+//<<<<<<< HEAD
+		//////////////////////////////////////////////////////////////////////////////////
+		
+//=======
 		////////////////////// WORLD ARRAY ///////////////////////////////////////////////
 		// Instance Variables
-		array <intersection^, 2>^ WORLD; //The kerat ^ is a pointer to the cell ^
+<<<<<<< HEAD
+		//array <intersection^, 2>^ WORLD; //The kerat ^ is a pointer to the cell ^
+=======
+		array <file^, 2>^ WORLD; //The kerat ^ is a pointer to the cell ^
+>>>>>>> 6a494a4f22910045b563235475b943ded9fea4ee
 		// Static constants
-		const int num_avenues = 10; //Number of ros in the grid
-	private: System::Windows::Forms::Button^  move_button;
-	private: System::Windows::Forms::Button^  turn_button;
-			 const int num_streets = 10; //Number of collumns in the grid
+		const int num_rows = 10; //Number of ros in the grid
+		private: System::Windows::Forms::Button^  move_button;
+		private: System::Windows::Forms::Button^  turn_button;
+		const int num_cols = 10; //Number of collumns in the grid
 
+//>>>>>>> origin/master
 	public:
 		MyForm(void)
 		{
@@ -83,11 +104,13 @@ namespace Project1 {
 			// 
 			// pictureBox1
 			// 
+			this->pictureBox1->BackColor = System::Drawing::Color::White;
 			this->pictureBox1->Location = System::Drawing::Point(14, 15);
 			this->pictureBox1->Name = L"pictureBox1";
 			this->pictureBox1->Size = System::Drawing::Size(400, 400);
 			this->pictureBox1->TabIndex = 0;
 			this->pictureBox1->TabStop = false;
+			this->pictureBox1->Click += gcnew System::EventHandler(this, &MyForm::pictureBox1_Click);
 			// 
 			// button1
 			// 
@@ -140,19 +163,28 @@ namespace Project1 {
 #pragma endregion
 //<<<<<<< HEAD
 //<<<<<<< HEAD
-		int NUMROWS;
-		int NUMCOLS;
-
+<<<<<<< HEAD
+//=======
+//<<<<<<< HEAD
+//>>>>>>> origin/master
+=======
+		file purple;
 		bool start_game = false;		//bool for if cell is drawn... wont allow other commands until cell is drawn
 
 
 
-	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) {
+	//private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) {
 				 /*int temp;
 =======
+>>>>>>> 6a494a4f22910045b563235475b943ded9fea4ee
+
+		int NUMROUS=5;
+		int NUMCOLS=5;
+		int numrow = 5;
+		int numcol = 4;
 
 
-private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) 
+/*private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) 
 	{
 				 int temp;
 >>>>>>> origin/master
@@ -163,6 +195,16 @@ private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e
 				 }
 		
 <<<<<<< HEAD
+<<<<<<< HEAD
+				 g = pictureBox1->CreateGraphics();
+				 gridBox1 = gcnew array<icon^, 2>(5, 5);
+				 for (int row = 0; row < numrow; row++)
+				 {
+					 for (int col = 0; col < NUMCOLS; col++)
+					 {
+
+						 Box1[row, col] = gcnew icon(row, col, 'b');
+=======
 		*/
 
 
@@ -173,7 +215,7 @@ private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e
 //>>>>>>> origin/master
 
 	//}
-	};
+	//};
 private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
 			 start_game = true;
 
@@ -184,7 +226,113 @@ private: System::Void move_button_Click(System::Object^  sender, System::EventAr
 			 ////////////////
 			 if (start_game = true){
 
+				 int cur_row = purple.get_row();
+				 int cur_col = purple.get_col();
+				 int cur_direction = purple.get_direction();
+				 int temp_row;
+				 int temp_col;
 
+
+
+
+				 //directioms
+				 //1 = up
+				 //2 = left
+				 //3 = down
+				 //4 = right
+
+				 //up
+				 if (cur_direction == 1)
+				 {
+					 temp_col = cur_col - 1;
+					 if (temp_col < 0 || temp_col >= num_cols)
+					 {
+						 g->DrawImage(KarelUpbmp, cur_row * 50, cur_col * 50, 50, 50);
+					 }
+					 else
+					 {
+						 //pictureBox1->Refresh();
+						 Rectangle blank_space = Rectangle(cur_row * CELLSIZE, cur_col * CELLSIZE, 50, 50);
+						 g->FillRectangle(whiteBrush, blank_space);
+						 g->DrawImage(KarelUpbmp, cur_row * 50, temp_col * 50, 50, 50);
+						 purple.set_col(temp_col);
+					 }
+				 }
+
+
+				 //left
+				 if (cur_direction == 2)
+				 {
+					 temp_row = cur_row - 1;
+					 if (temp_row < 0 || temp_row >= num_rows)
+					 {
+						 g->DrawImage(KarelLeftbmp, cur_row * 50, cur_col * 50, 50, 50);
+					 }
+					 else
+					 {
+						 //pictureBox1->Refresh();
+						 Rectangle blank_space = Rectangle(cur_row * CELLSIZE, cur_col * CELLSIZE, 50, 50);
+						 g->FillRectangle(whiteBrush, blank_space);
+						 g->DrawImage(KarelLeftbmp, temp_row * 50, cur_col * 50, 50, 50);
+						 purple.set_row(temp_row);
+					 }
+				 }
+
+
+				 //down
+				 if (cur_direction == 3)
+				 {
+					 temp_col = cur_col + 1;
+					 if (temp_col < 0 || temp_col >= num_cols)
+					 {
+						 g->DrawImage(KarelDownbmp, cur_row * 50, cur_col * 50, 50, 50);
+					 }
+					 else
+					 {
+						 //pictureBox1->Refresh();
+						 Rectangle blank_space = Rectangle(cur_row * CELLSIZE, cur_col * CELLSIZE, 50, 50);
+						 g->FillRectangle(whiteBrush, blank_space);
+						 g->DrawImage(KarelDownbmp, cur_row * 50, temp_col * 50, 50, 50);
+						 purple.set_col(temp_col);
+					 }
+				 }
+
+
+				 //right
+				 if (cur_direction == 4)
+				 {
+					 temp_row = cur_row + 1;
+					 if (temp_row < 0 || temp_row >= num_rows)
+					 {
+						 g->DrawImage(KarelRightbmp, cur_row * 50, cur_col * 50, 50, 50);
+					 }
+					 else
+					 {
+						 //pictureBox1->Refresh();
+						 Rectangle blank_space = Rectangle(cur_row * CELLSIZE, cur_col * CELLSIZE, 50, 50);
+						 g->FillRectangle(whiteBrush, blank_space);
+						 g->DrawImage(KarelRightbmp, temp_row * 50, cur_col * 50, 50, 50);
+						 purple.set_row(temp_row);
+>>>>>>> 6a494a4f22910045b563235475b943ded9fea4ee
+					 }
+				 }
+
+
+<<<<<<< HEAD
+===
+	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) 
+	{
+>>>>>>> origin/master
+
+	}
+	};
+private: System::Void pictureBox1_Click(System::Object^  sender, System::EventArgs^  e) {
+}
+}
+*/
+
+//=======
+=======
 
 
 
@@ -196,16 +344,79 @@ private: System::Void move_button_Click(System::Object^  sender, System::EventAr
 			 //////////////////
 };
 
+>>>>>>> 6a494a4f22910045b563235475b943ded9fea4ee
 /* 4.	The commands are not case sensitive. These are the commands to build his world:
 a.	World (might be written as WORLD, world –case insensitive- etc): defines the size of Karel’s world. */
-
+		icon robot;
 private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) 
 				{
-			>>>>>>> origin/master
-				WORLD = gcnew array<cell^, 2>(num_avenues, num_streets); //World num_avenues num_streets
+<<<<<<< HEAD
+		//	>>>>>>> origin/master
+			 srand(time(NULL));
+			 g = pictureBox1->CreateGraphics();
+			 Box1 = gcnew array<icon^, 2>(5, 5);
+			 for (int row = 0; row < numrow; row++)
+			 {
+				 for (int col = 0; col < NUMCOLS; col++)
+				 {
+
+					 Box1[row, col] = gcnew icon(row, col, 'b');
+				 }
+			 }
+			 int direction = rand() % 6 + 1;
+			 if (direction == 1)
+			 {
+				 g->DrawImage(KarelLeftbmp, robot.left(robot.getx()), robot.gety());
+			 }
+			 else
+			 {
+				 if (direction == 2)
+				 {
+					 g->DrawImage(KarelRightbmp, robot.setx(robot.getx()), robot.gety());
+				 }
+				 else
+				 {
+					 if (direction == 3)
+					 {
+						 g->DrawImage(KarelUpbmp, robot.getx(), robot.sety(robot.gety()));
+					 }
+					 else
+					 {
+						 g->DrawImage(KarelDownbmp, robot.getx(), robot.down(robot.gety()));
+
+					 }
+					 
+				 }
+			 }
+				/*WORLD = gcnew array<cell^, 2>(num_avenues, num_streets); //World num_avenues num_streets
 					for (int row = 0; row < num_avenues; avenue++)
 						for (int col = 0; col < num_streets; street++)
 							grid[avenue, street] = gcnew cell(row, col, 'b');
+=======
+<<<<<<< HEAD
+			 g = pictureBox1->CreateGraphics();
+			 //blackBrush = gcnew System::Drawing::SolidBrush(Color::Black);
+			 whiteBrush = gcnew System::Drawing::SolidBrush(Color::White);
+			//>>>>>>> origin/master
+				WORLD = gcnew array<file^, 2>(num_rows, num_cols); //World num_avenues num_streets
+=======
+				WORLD = gcnew array<file^, 2>(num_cols, num_rows); //World num_avenues num_streets
+>>>>>>> origin/master
+					for (int row = 0; row < num_rows; row++)
+						for (int col = 0; col < num_cols; col++)
+							WORLD[row, col] = gcnew file(row, col, 'b');
+>>>>>>> 6a494a4f22910045b563235475b943ded9fea4ee
+
+						int temp;
+						ifstream myfile("textfile.txt");
+						if (myfile.is_open())
+						{
+							//so something here does stuff with the text tile
+							//i'll figure that out
+							//- RF
+						}
+						*/
+						
 
 				}
 	private: System::Void turn_button_Click(System::Object^  sender, System::EventArgs^  e) {
@@ -214,6 +425,30 @@ private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e
 				 ///////////
 				 if (start_game = true){
 
+					 int row = purple.get_row();
+					 int col = purple.get_col();
+					 int direction = purple.get_direction();
+
+					 if (direction == 1)
+					 {
+						 purple.set_direction(2);
+						 g->DrawImage(KarelLeftbmp, row * 50, col * 50, 50, 50);
+					 }
+					 if (direction == 2)
+					 {
+						 purple.set_direction(3);
+						 g->DrawImage(KarelDownbmp, row * 50, col * 50, 50, 50);
+					 }
+					 if (direction == 3)
+					 {
+						 purple.set_direction(4);
+						 g->DrawImage(KarelRightbmp, row * 50, col * 50, 50, 50);
+					 }
+					 if (direction == 4)
+					 {
+						 purple.set_direction(1);
+						 g->DrawImage(KarelUpbmp, row * 50, col * 50, 50, 50);
+					 }
 
 
 
@@ -222,4 +457,8 @@ private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e
 	}
 };
 };
+<<<<<<< HEAD
+//>>>>>>> origin/master
+=======
 
+>>>>>>> 6a494a4f22910045b563235475b943ded9fea4ee

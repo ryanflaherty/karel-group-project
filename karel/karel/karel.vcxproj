@@ -79,11 +79,19 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+<<<<<<< HEAD
+    <ClCompile Include="icon.cpp" />
+    <ClCompile Include="MyForm.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="icon.h" />
+=======
     <ClCompile Include="file.cpp" />
     <ClCompile Include="MyForm.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="file.h" />
+>>>>>>> 6a494a4f22910045b563235475b943ded9fea4ee
     <ClInclude Include="MyForm.h">
       <FileType>CppForm</FileType>
     </ClInclude>
