@@ -218,11 +218,12 @@ namespace Project1 {
 				 int i = purple.get_beeper_pocket();
 				 int direction = purple.get_direction();
 
-				 if (WALLS[x, y]->get_beeper() == true)
+				 if (WALLS[x, y]->get_beeper() == true) //pick up beeper
 				 {
 					 WALLS[x, y]->set_beeper(false);
 					 purple.set_beeper_pocket(++i);
 					 drawMaze();
+					 //draw mini beeper on picture 2
 					 if (direction == 1){
 						 g->DrawImage(KarelUpbmp, x * CELLSIZE, y * CELLSIZE, CELLSIZE, CELLSIZE);
 					 }
@@ -238,7 +239,7 @@ namespace Project1 {
 
 				 }
 				 
-				 else if (WALLS[x, y]->get_beeper() == false && i > 0)
+				 else if (WALLS[x, y]->get_beeper() == false && i > 0) //put down beeper
 				 {
 					 WALLS[x, y]->set_beeper(true);
 					 purple.set_beeper_pocket(--i);
