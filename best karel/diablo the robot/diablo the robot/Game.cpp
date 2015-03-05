@@ -12,6 +12,10 @@ int game::get_direction()
 {
 	return direction;
 }
+int game::get_beeper_pocket()
+{
+	return beeper_pocket;
+}
 
 
 void game::set_row(int newrow)
@@ -28,6 +32,10 @@ void game::set_direction(int a)
 	{
 		direction = a;
 	}
+}
+void game::set_beeper_pocket(int b)
+{
+	beeper_pocket = b;
 }
 
 

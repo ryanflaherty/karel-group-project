@@ -27,6 +27,8 @@ namespace Project1 {
 
 		/////////Graphics Folder/////////
 		Graphics^ g;
+		Graphics^ gbmp;
+		Bitmap^ view;
 		Brush^ blackBrush;
 		Brush^ whiteBrush;
 		Bitmap^ KarelLeftbmp = gcnew Bitmap("Graphics/KarelLeft.bmp");
@@ -182,6 +184,8 @@ namespace Project1 {
 
 	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) {
 				 g = pictureBox1->CreateGraphics();
+				 view = gcnew Bitmap(CELLSIZE, CELLSIZE, System::Drawing::Imaging::PixelFormat::Format32bppArgb);
+				 gbmp = Graphics::FromImage(view);
 				 blackBrush = gcnew System::Drawing::SolidBrush(Color::Black);
 				 whiteBrush = gcnew System::Drawing::SolidBrush(Color::White);
 				 
@@ -197,19 +201,19 @@ namespace Project1 {
 				 //interact button
 				 int x = purple.get_row();
 				 int y = purple.get_col();
-				 int i = wallClass.get_beeper_pocket();
+				 int i = purple.get_beeper_pocket();
 
 				 if (WALLS[x, y]->get_beeper() == true)
 				 {
 					 WALLS[x, y]->set_beeper(false);
-					 wallClass.set_beeper_pocket(i++);
+					 purple.set_beeper_pocket(++i);
 					 drawMaze();
 				 }
 				 
-				 if (WALLS[x, y]->get_beeper() == false && i > 0)
+				 else if (WALLS[x, y]->get_beeper() == false && i > 0)
 				 {
 					 WALLS[x, y]->set_beeper(true);
-					 wallClass.set_beeper_pocket(i--);
+					 purple.set_beeper_pocket(--i);
 					 drawMaze();
 				 }
 
@@ -228,7 +232,7 @@ private: System::Void Start_button_Click(System::Object^  sender, System::EventA
 			 purple.set_row(5);
 			 purple.set_col(5);
 			 purple.set_direction(1);
-			 wallClass.set_beeper_pocket(0);
+			 purple.set_beeper_pocket(0);
 
 			 //set walls
 			 for (int row = 0; row < num_rows; row++){
@@ -302,7 +306,6 @@ private: System::Void button2_Click(System::Object^  sender, System::EventArgs^ 
 				 }
 				 else
 				 {
-					 //pictureBox1->Refresh();
 					 Rectangle blank_space = Rectangle(cur_row * CELLSIZE, cur_col * CELLSIZE, 50, 50);
 					 g->FillRectangle(whiteBrush, blank_space);
 					 drawMaze();
@@ -322,7 +325,6 @@ private: System::Void button2_Click(System::Object^  sender, System::EventArgs^ 
 				 }
 				 else
 				 {
-					 //pictureBox1->Refresh();
 					 Rectangle blank_space = Rectangle(cur_row * CELLSIZE, cur_col * CELLSIZE, 50, 50);
 					 g->FillRectangle(whiteBrush, blank_space);
 					 drawMaze();
@@ -342,7 +344,6 @@ private: System::Void button2_Click(System::Object^  sender, System::EventArgs^ 
 				 }
 				 else
 				 {
-					 //pictureBox1->Refresh();
 					 Rectangle blank_space = Rectangle(cur_row * CELLSIZE, cur_col * CELLSIZE, 50, 50);
 					 g->FillRectangle(whiteBrush, blank_space);
 					 drawMaze();
@@ -362,7 +363,6 @@ private: System::Void button2_Click(System::Object^  sender, System::EventArgs^ 
 				 }
 				 else
 				 {
-					 //pictureBox1->Refresh();
 					 Rectangle blank_space = Rectangle(cur_row * CELLSIZE, cur_col * CELLSIZE, 50, 50);
 					 g->FillRectangle(whiteBrush, blank_space);
 					 drawMaze();
