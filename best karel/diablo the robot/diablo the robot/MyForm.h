@@ -63,6 +63,7 @@ namespace Project1 {
 			}
 		}
 	private: System::Windows::Forms::PictureBox^  pictureBox1;
+	private: System::Windows::Forms::Label^  label1;
 	private: System::Windows::Forms::Button^  Start_button;
 	private: System::Windows::Forms::Button^  move_button;
 	private: System::Windows::Forms::Button^  turn_button;
@@ -94,6 +95,7 @@ namespace Project1 {
 			this->turn_button = (gcnew System::Windows::Forms::Button());
 			this->beeper_button = (gcnew System::Windows::Forms::Button());
 			this->picture_bar = (gcnew System::Windows::Forms::PictureBox());
+			this->label1 = (gcnew System::Windows::Forms::Label());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->picture_bar))->BeginInit();
 			this->SuspendLayout();
@@ -156,11 +158,20 @@ namespace Project1 {
 			this->picture_bar->TabStop = false;
 			this->picture_bar->Click += gcnew System::EventHandler(this, &MyForm::pictureBox2_Click);
 			// 
+			// label1
+			// 
+			this->label1->AutoSize = true;
+			this->label1->Location = System::Drawing::Point(339, 13);
+			this->label1->Name = L"label1";
+			this->label1->Size = System::Drawing::Size(0, 13);
+			this->label1->TabIndex = 6;
+			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->ClientSize = System::Drawing::Size(1484, 962);
+			this->Controls->Add(this->label1);
 			this->Controls->Add(this->picture_bar);
 			this->Controls->Add(this->beeper_button);
 			this->Controls->Add(this->turn_button);
@@ -173,16 +184,19 @@ namespace Project1 {
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->EndInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->picture_bar))->EndInit();
 			this->ResumeLayout(false);
+			this->PerformLayout();
 
 		}
 #pragma endregion
 		game purple;
 		wall wallClass;
 
-		int wall_count = 0;
+		
 		
 
 	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) {
+				 //form load
+				 MessageBox::Show("Karel the Robot");
 				 g = pictureBox1->CreateGraphics();
 				 view = gcnew Bitmap(CELLSIZE, CELLSIZE, System::Drawing::Imaging::PixelFormat::Format32bppArgb);
 				 gbmp = Graphics::FromImage(view);
@@ -202,12 +216,26 @@ namespace Project1 {
 				 int x = purple.get_row();
 				 int y = purple.get_col();
 				 int i = purple.get_beeper_pocket();
+				 int direction = purple.get_direction();
 
 				 if (WALLS[x, y]->get_beeper() == true)
 				 {
 					 WALLS[x, y]->set_beeper(false);
 					 purple.set_beeper_pocket(++i);
 					 drawMaze();
+					 if (direction == 1){
+						 g->DrawImage(KarelUpbmp, x * CELLSIZE, y * CELLSIZE, CELLSIZE, CELLSIZE);
+					 }
+					 if (direction == 2){
+						 g->DrawImage(KarelLeftbmp, x * CELLSIZE, y * CELLSIZE, CELLSIZE, CELLSIZE);
+					 }
+					 if (direction == 3){
+						 g->DrawImage(KarelDownbmp, x * CELLSIZE, y * CELLSIZE, CELLSIZE, CELLSIZE);
+					 }
+					 if (direction == 4){
+						 g->DrawImage(KarelRightbmp, x * CELLSIZE, y * CELLSIZE, CELLSIZE, CELLSIZE);
+					 }
+
 				 }
 				 
 				 else if (WALLS[x, y]->get_beeper() == false && i > 0)
@@ -215,9 +243,21 @@ namespace Project1 {
 					 WALLS[x, y]->set_beeper(true);
 					 purple.set_beeper_pocket(--i);
 					 drawMaze();
+					 if (direction == 1){
+						 g->DrawImage(KarelUpbmp, x * CELLSIZE, y * CELLSIZE, CELLSIZE, CELLSIZE);
+					 }
+					 if (direction == 2){
+						 g->DrawImage(KarelLeftbmp, x * CELLSIZE, y * CELLSIZE, CELLSIZE, CELLSIZE);
+					 }
+					 if (direction == 3){
+						 g->DrawImage(KarelDownbmp, x * CELLSIZE, y * CELLSIZE, CELLSIZE, CELLSIZE);
+					 }
+					 if (direction == 4){
+						 g->DrawImage(KarelRightbmp, x * CELLSIZE, y * CELLSIZE, CELLSIZE, CELLSIZE);
+					 }
 				 }
 
-
+				 
 
 
 
@@ -277,6 +317,10 @@ private: System::Void Start_button_Click(System::Object^  sender, System::EventA
 			 int temp_row = purple.get_row();
 			 int temp_col = purple.get_col();
 			 g->DrawImage(KarelUpbmp, temp_row * CELLSIZE, temp_col * CELLSIZE, CELLSIZE, CELLSIZE);
+
+			 //counter
+			 //int count = purple.get_beeper_pocket();
+			 //label1->Text = (count, "/4 beepers");
 }
 private: System::Void pictureBox2_Click(System::Object^  sender, System::EventArgs^  e) {
 			 //ignore
@@ -306,8 +350,8 @@ private: System::Void button2_Click(System::Object^  sender, System::EventArgs^ 
 				 }
 				 else
 				 {
-					 Rectangle blank_space = Rectangle(cur_row * CELLSIZE, cur_col * CELLSIZE, 50, 50);
-					 g->FillRectangle(whiteBrush, blank_space);
+					 //Rectangle blank_space = Rectangle(cur_row * CELLSIZE, cur_col * CELLSIZE, 50, 50);
+					 //g->FillRectangle(whiteBrush, blank_space);
 					 drawMaze();
 					 g->DrawImage(KarelUpbmp, cur_row * 50, temp_col * 50, 50, 50);
 					 purple.set_col(temp_col);
@@ -402,7 +446,7 @@ private: Void drawMaze(){
 			 int row, col;
 			 int x, y;
 
-			 pictureBox1->Refresh();
+			 //pictureBox1->Refresh();
 
 			 for (row = 0; row < num_rows; row++){
 				 for (col = 0; col < num_cols; col++)
