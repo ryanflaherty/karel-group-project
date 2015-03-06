@@ -20,8 +20,6 @@ namespace Project1 {
 	public ref class MyForm : public System::Windows::Forms::Form
 	{
 	private:
-		//file input
-		//StreamReader^ sr;
 
 		//array to hold map
 		array <wall^, 2>^ WALLS;
@@ -43,7 +41,8 @@ namespace Project1 {
 		Bitmap^ KarelUpbmp = gcnew Bitmap("Graphics/KarelUp.bmp");
 		Bitmap^ KarelDownbmp = gcnew Bitmap("Graphics/KarelDown.bmp");
 		Bitmap^ KarelWallBlockbmp = gcnew Bitmap("Graphics/KarelWallBlock.bmp");
-		Bitmap^ KarelBeeperbmp = gcnew Bitmap("Graphics/KarelBeeper.bmp");
+	private: System::Windows::Forms::Button^  button1;
+			 Bitmap^ KarelBeeperbmp = gcnew Bitmap("Graphics/KarelBeeper.bmp");
 		/////////////////////////////////
 
 		
@@ -103,6 +102,7 @@ namespace Project1 {
 			this->beeper_button = (gcnew System::Windows::Forms::Button());
 			this->picture_bar = (gcnew System::Windows::Forms::PictureBox());
 			this->label1 = (gcnew System::Windows::Forms::Label());
+			this->button1 = (gcnew System::Windows::Forms::Button());
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->pictureBox1))->BeginInit();
 			(cli::safe_cast<System::ComponentModel::ISupportInitialize^>(this->picture_bar))->BeginInit();
 			this->SuspendLayout();
@@ -174,12 +174,23 @@ namespace Project1 {
 			this->label1->Size = System::Drawing::Size(0, 13);
 			this->label1->TabIndex = 6;
 			// 
+			// button1
+			// 
+			this->button1->Location = System::Drawing::Point(645, 13);
+			this->button1->Name = L"button1";
+			this->button1->Size = System::Drawing::Size(75, 23);
+			this->button1->TabIndex = 7;
+			this->button1->Text = L"Execute";
+			this->button1->UseVisualStyleBackColor = true;
+			this->button1->Click += gcnew System::EventHandler(this, &MyForm::button1_Click);
+			// 
 			// MyForm
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
 			this->BackColor = System::Drawing::Color::Maroon;
 			this->ClientSize = System::Drawing::Size(1484, 962);
+			this->Controls->Add(this->button1);
 			this->Controls->Add(this->label1);
 			this->Controls->Add(this->picture_bar);
 			this->Controls->Add(this->beeper_button);
@@ -228,6 +239,7 @@ namespace Project1 {
 				 StreamReader^ sr = gcnew StreamReader("karel.txt");
 				 String^ line;
 				 array<String^>^Split_Line;
+				 
 
 				 //reads in file until end of file
 				 while (line = sr->ReadLine())
@@ -491,6 +503,33 @@ private: Void drawMaze(){
 						 g->DrawImage(KarelBeeperbmp, x, y, CELLSIZE, CELLSIZE);
 					 }
 				 }
+			 }
+}
+private: System::Void button1_Click(System::Object^  sender, System::EventArgs^  e) {
+			 //execute button
+
+			 StreamReader^ sr2 = gcnew StreamReader("movement.txt");
+			 String^ line;
+
+			 while (line = sr2->ReadLine())
+			 {
+				 if (line->Contains("move"))
+				 {
+					 button2_Click(sender, e);
+				 }
+				 if (line->Contains("turnleft"))
+				 {
+					 turn_button_Click(sender, e);
+				 }
+				 if (line->Contains("beeper"))
+				 {
+					 button4_Click(sender, e);
+				 }
+				 //if (line->Contains("Close"))
+				 //{
+//
+				 //}
+				 System::Threading::Thread::Sleep(500);
 			 }
 }
 };
