@@ -12,6 +12,7 @@ namespace Project1 {
 	using namespace System::Windows::Forms;
 	using namespace System::Data;
 	using namespace System::Drawing;
+	using namespace System::IO;
 
 	/// <summary>
 	/// Summary for MyForm
@@ -19,6 +20,10 @@ namespace Project1 {
 	public ref class MyForm : public System::Windows::Forms::Form
 	{
 	private:
+		//file input
+		//StreamReader^ sr;
+
+		//array to hold map
 		array <wall^, 2>^ WALLS;
 
 		static const int num_rows = 29;
@@ -27,10 +32,12 @@ namespace Project1 {
 
 		/////////Graphics Folder/////////
 		Graphics^ g;
+		Graphics^ f;
 		Graphics^ gbmp;
 		Bitmap^ view;
 		Brush^ blackBrush;
 		Brush^ whiteBrush;
+		Brush^ controlBrush;
 		Bitmap^ KarelLeftbmp = gcnew Bitmap("Graphics/KarelLeft.bmp");
 		Bitmap^ KarelRightbmp = gcnew Bitmap("Graphics/KarelRight.bmp");
 		Bitmap^ KarelUpbmp = gcnew Bitmap("Graphics/KarelUp.bmp");
@@ -151,6 +158,7 @@ namespace Project1 {
 			// 
 			// picture_bar
 			// 
+			this->picture_bar->BackColor = System::Drawing::Color::White;
 			this->picture_bar->Location = System::Drawing::Point(339, 12);
 			this->picture_bar->Name = L"picture_bar";
 			this->picture_bar->Size = System::Drawing::Size(300, 23);
@@ -170,6 +178,7 @@ namespace Project1 {
 			// 
 			this->AutoScaleDimensions = System::Drawing::SizeF(6, 13);
 			this->AutoScaleMode = System::Windows::Forms::AutoScaleMode::Font;
+			this->BackColor = System::Drawing::Color::Maroon;
 			this->ClientSize = System::Drawing::Size(1484, 962);
 			this->Controls->Add(this->label1);
 			this->Controls->Add(this->picture_bar);
@@ -196,20 +205,60 @@ namespace Project1 {
 
 	private: System::Void MyForm_Load(System::Object^  sender, System::EventArgs^  e) {
 				 //form load
+
+				 //opening message
 				 MessageBox::Show("Karel the Robot");
+
+				 //graphic constructs
 				 g = pictureBox1->CreateGraphics();
+				 f = picture_bar->CreateGraphics();
 				 view = gcnew Bitmap(CELLSIZE, CELLSIZE, System::Drawing::Imaging::PixelFormat::Format32bppArgb);
 				 gbmp = Graphics::FromImage(view);
 				 blackBrush = gcnew System::Drawing::SolidBrush(Color::Black);
 				 whiteBrush = gcnew System::Drawing::SolidBrush(Color::White);
-				 
+				 controlBrush = gcnew System::Drawing::SolidBrush(Color::Maroon);
+
+				 //array constructer
 				 WALLS = gcnew array<wall^, 2>(num_rows, num_cols);
-					for (int row = 0; row < num_rows; row++)
-					for (int col = 0; col < num_cols; col++)
-						WALLS[row, col] = gcnew wall(row, col, false, false);
+				 for (int row = 0; row < num_rows; row++)
+				 for (int col = 0; col < num_cols; col++)
+					 WALLS[row, col] = gcnew wall(row, col, false, false);
 
+				 //file input
+				 StreamReader^ sr = gcnew StreamReader("karel.txt");
+				 String^ line;
+				 array<String^>^Split_Line;
 
-					
+				 //reads in file until end of file
+				 while (line = sr->ReadLine())
+				 {
+					 Split_Line = line->Split(' ');
+
+					 if (Split_Line[0]->Contains("wall:"))
+					 {
+						 int x_value = System::Convert::ToInt32(Split_Line[1]);
+						 int y_value = System::Convert::ToInt32(Split_Line[2]);
+
+						 WALLS[x_value, y_value]->set_wall(true);
+					 }
+					 else if (Split_Line[0]->Contains("beeper:"))
+					 {
+						 int x_value = System::Convert::ToInt32(Split_Line[1]);
+						 int y_value = System::Convert::ToInt32(Split_Line[2]);
+
+						 WALLS[x_value, y_value]->set_beeper(true);
+					 }
+					 else if (Split_Line[0]->Contains("karel:"))
+					 {
+						 int x_value = System::Convert::ToInt32(Split_Line[1]);
+						 int y_value = System::Convert::ToInt32(Split_Line[2]);
+
+						 purple.set_row(x_value);
+						 purple.set_col(y_value);
+					 }
+				 }
+				 sr->Close();
+				 delete sr;		
 	}
 	private: System::Void button4_Click(System::Object^  sender, System::EventArgs^  e) {
 				 //interact button
@@ -223,7 +272,8 @@ namespace Project1 {
 					 WALLS[x, y]->set_beeper(false);
 					 purple.set_beeper_pocket(++i);
 					 drawMaze();
-					 //draw mini beeper on picture 2
+					 
+					 //draws karel after removing beeper
 					 if (direction == 1){
 						 g->DrawImage(KarelUpbmp, x * CELLSIZE, y * CELLSIZE, CELLSIZE, CELLSIZE);
 					 }
@@ -236,6 +286,9 @@ namespace Project1 {
 					 if (direction == 4){
 						 g->DrawImage(KarelRightbmp, x * CELLSIZE, y * CELLSIZE, CELLSIZE, CELLSIZE);
 					 }
+
+					 //draws mini beeper
+					 f->DrawImage(KarelBeeperbmp, i * 35, 1, 20, 20);
 
 				 }
 				 
@@ -256,6 +309,18 @@ namespace Project1 {
 					 if (direction == 4){
 						 g->DrawImage(KarelRightbmp, x * CELLSIZE, y * CELLSIZE, CELLSIZE, CELLSIZE);
 					 }
+
+					 //erases mini beeper
+					 if (i <= 0)
+					 {
+						 Rectangle blank_space = Rectangle(35, 1, 20, 20);
+						 f->FillRectangle(whiteBrush, blank_space);
+					 }
+					 else
+					 {
+						 Rectangle blank_space = Rectangle((i + 1) * 35, 1, 20, 20);
+						 f->FillRectangle(whiteBrush, blank_space);
+					 }
 				 }
 
 				 
@@ -270,47 +335,9 @@ namespace Project1 {
 private: System::Void Start_button_Click(System::Object^  sender, System::EventArgs^  e) {
 			 //start button
 			 pictureBox1->Refresh();
-			 purple.set_row(5);
-			 purple.set_col(5);
+			 picture_bar->Refresh();
 			 purple.set_direction(1);
 			 purple.set_beeper_pocket(0);
-
-			 //set walls
-			 for (int row = 0; row < num_rows; row++){
-				 int col = 0;
-					 WALLS[row, col]->set_wall(true);//}
-			 }
-			 for (int col = 0; col < num_cols; col++){
-				 int row = 0;
-				 WALLS[row, col]->set_wall(true);
-			 }
-			 for (int row = 0; row < num_rows; row++){
-				 int col = num_cols - 1;
-				 WALLS[row, col]->set_wall(true);
-			 }
-			 for (int col = 0; col < num_cols; col++){
-				 int row = num_rows - 1;
-				 WALLS[row, col]->set_wall(true);
-			 }
-			 
-			 //sets value of beepers to false for all spaces
-			 for (int row = 0; row < num_rows; row++){
-				 for (int col = 0; col < num_cols; col++){
-					 WALLS[row, col]->set_beeper(false);
-				 }
-			 }
-			 
-			 //beeper set 
-			 srand(time(NULL));
-			 for (int beeper_count = 0; beeper_count < 4; beeper_count++){
-				 int temp_x = rand() % num_rows;
-				 int temp_y = rand() % num_cols;
-				 if (WALLS[temp_x, temp_y]->get_wall() == false){
-					 WALLS[temp_x, temp_y]->set_beeper(true);
-				 }
-				 else
-					 beeper_count--;
-			 }
 
 			 //draws maze
 			 drawMaze();
@@ -319,9 +346,6 @@ private: System::Void Start_button_Click(System::Object^  sender, System::EventA
 			 int temp_col = purple.get_col();
 			 g->DrawImage(KarelUpbmp, temp_row * CELLSIZE, temp_col * CELLSIZE, CELLSIZE, CELLSIZE);
 
-			 //counter
-			 //int count = purple.get_beeper_pocket();
-			 //label1->Text = (count, "/4 beepers");
 }
 private: System::Void pictureBox2_Click(System::Object^  sender, System::EventArgs^  e) {
 			 //ignore
@@ -351,8 +375,6 @@ private: System::Void button2_Click(System::Object^  sender, System::EventArgs^ 
 				 }
 				 else
 				 {
-					 //Rectangle blank_space = Rectangle(cur_row * CELLSIZE, cur_col * CELLSIZE, 50, 50);
-					 //g->FillRectangle(whiteBrush, blank_space);
 					 drawMaze();
 					 g->DrawImage(KarelUpbmp, cur_row * 50, temp_col * 50, 50, 50);
 					 purple.set_col(temp_col);
@@ -370,8 +392,6 @@ private: System::Void button2_Click(System::Object^  sender, System::EventArgs^ 
 				 }
 				 else
 				 {
-					 Rectangle blank_space = Rectangle(cur_row * CELLSIZE, cur_col * CELLSIZE, 50, 50);
-					 g->FillRectangle(whiteBrush, blank_space);
 					 drawMaze();
 					 g->DrawImage(KarelLeftbmp, temp_row * 50, cur_col * 50, 50, 50);
 					 purple.set_row(temp_row);
@@ -389,8 +409,6 @@ private: System::Void button2_Click(System::Object^  sender, System::EventArgs^ 
 				 }
 				 else
 				 {
-					 Rectangle blank_space = Rectangle(cur_row * CELLSIZE, cur_col * CELLSIZE, 50, 50);
-					 g->FillRectangle(whiteBrush, blank_space);
 					 drawMaze();
 					 g->DrawImage(KarelDownbmp, cur_row * 50, temp_col * 50, 50, 50);
 					 purple.set_col(temp_col);
@@ -408,8 +426,6 @@ private: System::Void button2_Click(System::Object^  sender, System::EventArgs^ 
 				 }
 				 else
 				 {
-					 Rectangle blank_space = Rectangle(cur_row * CELLSIZE, cur_col * CELLSIZE, 50, 50);
-					 g->FillRectangle(whiteBrush, blank_space);
 					 drawMaze();
 					 g->DrawImage(KarelRightbmp, temp_row * 50, cur_col * 50, 50, 50);
 					 purple.set_row(temp_row);
@@ -480,21 +496,3 @@ private: Void drawMaze(){
 };
 }
 
-
-
-
-/*
-
-fix wall array
-draw walls from wall array
-
-
-
-learn wasd from nic and or jeremy
-
-
-
-
-
-double buffer
-*/
